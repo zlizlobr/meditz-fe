@@ -1,13 +1,401 @@
 <!doctype html>
-<html lang="en" data-beasties-container>
+<html lang="cs">
   <head>
-    <meta charset="utf-8">
-    <title>Prostředí BI</title>
-    <base href="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="styles-5INURTSO.css"></head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard Preview</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f3f6fb;
+        color: #1f2937;
+      }
+
+      .p-rsp-lg {
+        padding: 1rem;
+      }
+
+      .p-rsp-sm {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 0.75rem;
+      }
+
+      #is-scroller {
+        min-height: 100vh;
+      }
+
+      h1 {
+        margin: 0 0 1rem;
+        color: #24344f;
+        font-size: 1.75rem;
+      }
+
+      .flex {
+        display: flex;
+      }
+
+      .flex-column {
+        flex-direction: column;
+      }
+
+      .gap-3 {
+        gap: 0.9rem;
+      }
+
+      .grid {
+        display: flex;
+        flex-wrap: wrap;
+        margin: -0.45rem;
+      }
+
+      .grid-nogutter {
+        margin: 0;
+      }
+
+      .grid-nogutter > [class*='col'] {
+        padding: 0;
+      }
+
+      [class*='col'] {
+        width: 100%;
+        padding: 0.45rem;
+      }
+
+      .col {
+        flex: 1 1 0;
+      }
+
+      .col-6 {
+        width: 50%;
+      }
+
+      .col-12 {
+        width: 100%;
+      }
+
+      .card {
+        height: 100%;
+      }
+
+      .cell {
+        position: relative;
+        border-radius: 1rem;
+        border: 1px solid #dce4f1;
+        padding: 1rem;
+        background: #fff;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+
+      .cell.large {
+        min-height: 9.5rem;
+      }
+
+      .cell.small {
+        min-height: 6.25rem;
+      }
+
+      .green-bg {
+        background: #22a34e;
+      }
+
+      .blue-bg {
+        background: #2563eb;
+      }
+
+      .light-green-bg {
+        background: #ecfaed;
+      }
+
+      .white-cl,
+      .white-cl .font-semibold,
+      .white-cl .font-bold {
+        color: #fff;
+      }
+
+      .gray-cl,
+      .gray-cl .font-semibold,
+      .gray-cl .font-bold {
+        color: #2f3d54;
+      }
+
+      .cell.green-bg,
+      .cell.blue-bg {
+        border-color: transparent;
+      }
+
+      .cell.light-green-bg {
+        border-color: #d4edd5;
+      }
+
+      .content {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .font-semibold {
+        font-weight: 600;
+      }
+
+      .font-bold {
+        font-weight: 700;
+        font-size: 1.08rem;
+      }
+
+      .state-badge {
+        width: 0.62rem;
+        height: 0.62rem;
+        border-radius: 50%;
+        display: inline-flex;
+        flex-shrink: 0;
+      }
+
+      .state-badge.red {
+        background: #dc2626;
+      }
+
+      .state-badge.green {
+        background: #22a34e;
+      }
+
+      .value {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+
+      .warn-btn {
+        border: none;
+        border-radius: 0.5rem;
+        background: #f59e0b;
+        color: #fff;
+        padding: 0.4rem 0.65rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      .info-icon {
+        position: absolute;
+        top: 0.4rem;
+        right: 0.4rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.68rem;
+        background: #eff4ff;
+        color: #5972a6;
+      }
+
+      .badge-icon {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.75rem;
+        opacity: 0.7;
+        background: #22a34e;
+        color: #fff;
+      }
+
+      .entity-grid {
+        border: 1px solid #d8e1ef;
+        border-radius: 0.85rem;
+        overflow: hidden;
+        background: #fff;
+        margin-top: 1rem;
+      }
+
+      .entity-grid .header {
+        padding: 0.8rem 1rem;
+        font-weight: 600;
+        border-bottom: 1px solid #d8e1ef;
+      }
+
+      .entity-grid .body {
+        min-height: 5rem;
+      }
+
+      @media (min-width: 992px) {
+        .p-rsp-lg {
+          padding: 1.5rem;
+        }
+
+        .p-rsp-sm {
+          padding: 1rem;
+        }
+
+        .lg-col-3 {
+          width: 25%;
+        }
+
+        .lg-col-12 {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
   <body>
-    <app-root></app-root>
-  <script src="main-FF436V6S.js" type="module"></script></body>
+    <div id="is-scroller" class="p-rsp-lg">
+      <div class="p-rsp-sm">
+        <h1 data-cy="dashboard">Dashboard</h1>
+
+        <div class="flex flex-column gap-3">
+          <div class="grid">
+            <div class="col-6 lg-col-3">
+              <div class="card">
+                <div class="cell large green-bg white-cl">
+                  <div class="content">
+                    <div class="title"><span class="font-semibold">Stav kreditu:</span></div>
+                    <div class="value"><span class="font-bold">0,00 kreditů</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 lg-col-3">
+              <div class="card">
+                <div class="cell large blue-bg white-cl">
+                  <div class="content">
+                    <div class="title"><span class="font-semibold">Celkem zařízení:</span></div>
+                    <div class="value"><span class="font-bold">0</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 lg-col-3">
+              <div class="grid grid-nogutter" style="height: 100%; gap: 0.9rem;">
+                <div class="col lg-col-12">
+                  <div class="card">
+                    <div class="cell small">
+                      <div class="content">
+                        <div class="title">
+                          <span class="state-badge green"></span>
+                          <span class="font-semibold">Online zařízení:</span>
+                        </div>
+                        <div class="value"><span class="font-bold">0</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col lg-col-12">
+                  <div class="card">
+                    <div class="cell small">
+                      <div class="content">
+                        <div class="title">
+                          <span class="state-badge red"></span>
+                          <span class="font-semibold">Offline zařízení:</span>
+                        </div>
+                        <div class="value"><span class="font-bold">0</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 lg-col-3">
+              <div class="card">
+                <div class="cell small">
+                  <div class="content">
+                    <div class="title"><span>⚠</span><span class="font-semibold">Zařízení s notifikací:</span></div>
+                    <div class="value">
+                      <span class="font-bold">0</span>
+                      <button class="warn-btn" type="button">Zkontrolovat</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="col-6 lg-col-3">
+              <div class="card">
+                <div class="cell small light-green-bg gray-cl">
+                  <span class="info-icon" title="Celkový příjem z pronájmu reklamních ploch na vašich zařízeních za aktuální měsíc">i</span>
+                  <div class="content">
+                    <div class="title"><span class="font-semibold">Celkový měsíční příjem:</span></div>
+                    <div class="value"><span class="font-bold">0,00 kreditů</span></div>
+                  </div>
+                  <span class="badge-icon">💳</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 lg-col-3">
+              <div class="card">
+                <div class="cell small light-green-bg gray-cl">
+                  <span class="info-icon" title="Průměrný denní počet unikátních lidí, kteří viděli reklamy na vašich zařízeních">i</span>
+                  <div class="content">
+                    <div class="title"><span class="font-semibold">Průměrný denní počet lidí:</span></div>
+                    <div class="value"><span class="font-bold">0</span></div>
+                  </div>
+                  <span class="badge-icon">👤</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 lg-col-3">
+              <div class="card">
+                <div class="cell small light-green-bg gray-cl">
+                  <span class="info-icon" title="Průměrný počet denních zobrazení reklam napříč všemi vašimi zařízeními">i</span>
+                  <div class="content">
+                    <div class="title"><span class="font-semibold">Průměrný denní počet zhlédnutí:</span></div>
+                    <div class="value"><span class="font-bold">0</span></div>
+                  </div>
+                  <span class="badge-icon">📈</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 lg-col-3">
+              <div class="card">
+                <div class="cell small light-green-bg gray-cl">
+                  <span class="info-icon" title="Průměrný měsíční příjem připadající na jedno aktivní zařízení">i</span>
+                  <div class="content">
+                    <div class="title"><span class="font-semibold">Průměrný příjem na zařízení:</span></div>
+                    <div class="value"><span class="font-bold">0,00 kreditů</span></div>
+                  </div>
+                  <span class="badge-icon">🖥</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="entity-grid">
+            <div class="header">Zařízení</div>
+            <div class="body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

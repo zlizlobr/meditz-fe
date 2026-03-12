@@ -1,14 +1,15 @@
 # Apache 2.4+ config for meditz.rumici.cz static Angular build
+DirectoryIndex index.html
 
-# 1) Restrict access only to whitelisted IPs (edit this list)
+# 1) Restrict access only to whitelisted IPs
 <RequireAll>
     Require all denied
 
-    # Local machine (keep/remove as needed)
+    # Local machine
     Require ip 109.183.230.59
-    Require ip ::1
+    Require ip 85.163.43.74
 
-    # TODO: replace with your real public IPs/subnets
+    # Add more allowed public IPs/subnets here
     # Require ip 203.0.113.10
     # Require ip 198.51.100.0/24
 </RequireAll>
@@ -20,7 +21,7 @@ RewriteCond %{HTTP_HOST} !^meditz\.rumici\.cz$ [NC,OR]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://meditz.rumici.cz%{REQUEST_URI} [R=301,L]
 
-# 3) Angular SPA fallback (serve index.html for non-file routes)
+# 3) SPA fallback (serve index.html for non-file routes)
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
